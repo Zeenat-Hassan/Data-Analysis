@@ -48,10 +48,10 @@ Query No # 2
 To see how many Case_Category present is Case_Category Column
 """
 
-# sql="Select count(Case_Category),Case_Category from QA1 group by Case_Category"
-# mycursor.execute(sql)
-# myresult=mycursor.fetchall()
-# print(myresult)
+sql="Select count(Case_Category),Case_Category from QA1 group by Case_Category"
+mycursor.execute(sql)
+myresult=mycursor.fetchall()
+print(myresult)
 
 """
 Query # 3
@@ -100,7 +100,18 @@ Query to see that in   "Merchants" Case Category has how many Case_Issues
 """
 Query to see that in   "Payments" Case Category has how many Case_Issues 
 """
-sql="Select count(Case_Issues),Case_Issues from QA1 where Case_Category=\"Payments\"  group by Case_Issues"
-mycursor.execute(sql)
-myresult=mycursor.fetchall()
-print(myresult)
+# sql="Select count(Case_Issues),Case_Issues from QA1 where Case_Category=\"Payments\"  group by Case_Issues"
+# mycursor.execute(sql)
+# myresult=mycursor.fetchall()
+# print(myresult)
+
+
+"""
+Query No # 2
+To see how many Case_Category present is Case_Category Column in percentage
+"""
+
+# sql="Select (count(Case_Category)*100/(Select count(*) from QA1)),Case_Category from QA1 group by Case_Category"
+# mycursor.execute(sql)
+# myresult=mycursor.fetchall()
+# print(myresult)
