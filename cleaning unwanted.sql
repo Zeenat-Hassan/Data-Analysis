@@ -12,3 +12,6 @@ where Original_text like '%---- Device %'
 Update QA_1
 set Processed_Data= REPLACE(Original_text,"Hello Admin ,"," " )
 where Original_text like '%Hello Admin ,%'
+                                                    
+SELECT Processed_Data FROM `QA_1` WHERE Processed_Data like '%--------- Device:%'
+                                                    
