@@ -7,3 +7,8 @@ where Original_text like "%---% Device%"
 Update QA_1
 set Processed_Data= REPLACE(Original_text,SUBSTRING(Original_text, POSITION("---- Device" IN Original_text), length(Original_text))," " )
 where Original_text like '%---- Device %'
+
+-----------
+Update QA_1
+set Processed_Data= REPLACE(Original_text,"Hello Admin ,"," " )
+where Original_text like '%Hello Admin ,%'
