@@ -5,13 +5,13 @@ where Original_text like "%---% Device%"
 
 ---Query to remove unanted string---
 Update QA_1
-set Processed_Data= REPLACE(Original_text,SUBSTRING(Original_text, POSITION("---- Device" IN Original_text), length(Original_text))," " )
-where Original_text like '%---- Device %'
+set Processed_Data= REPLACE(Processed_Data,SUBSTRING(Original_text, POSITION("---- Device" IN Original_text), length(Original_text))," " )
+where Processed_Data like '%---- Device %'
 
 -----------
 Update QA_1
-set Processed_Data= REPLACE(Original_text,"Hello Admin ,"," " )
-where Original_text like '%Hello Admin ,%'
+set Processed_Data= REPLACE(Processed_Data,"Hello Admin ,"," " )
+where Processed_Data like '%Hello Admin ,%'
                                                     
 SELECT Processed_Data FROM `QA_1` WHERE Processed_Data like '%--------- Device:%'
                                                     
