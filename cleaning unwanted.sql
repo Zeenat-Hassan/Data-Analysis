@@ -13,5 +13,5 @@ Update QA_1
 set Processed_Data= REPLACE(Processed_Data,"Hello Admin ,"," " )
 where Processed_Data like '%Hello Admin ,%'
                                                     
-SELECT Processed_Data FROM `QA_1` WHERE Processed_Data like '%--------- Device:%'
+SELECT Processed_Data,id FROM `QA_1` WHERE Processed_Data like '%--------- Device:%'
                                                     
