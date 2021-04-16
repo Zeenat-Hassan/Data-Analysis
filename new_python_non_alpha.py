@@ -7,7 +7,7 @@ def find_nonalpha(text):
 
 
 
-    result = re.findall("[^A-Za-z0-9\s]+|[^A-Za-z0-9\s]+[A-Za-z0-9]$]",text)
+    result = re.findall("[^A-Za-z0-9\s]",text)
     #print([i for i in result if not i.isalpha()])
     return result
 
