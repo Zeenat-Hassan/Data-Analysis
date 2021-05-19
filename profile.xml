@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="myprofile_form_view" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <form string="My Profile" create="false" delete="false">
+                <sheet>
+                    <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="phone" />
+                        <field name="email" />
+                        <field name="country_id" />
+                    </group>
+                    <notebook>
+                        <page string="Personal Details">
+                            <group>
+                                <field name="gender" />
+                                <field name="date_of_birth" />
+                                <field name="hand" />
+                                <field name="size_glove" />
+                                <field name="size_shirt" />
+                            </group>
+                        </page>
+                        <page string="SGS Details">
+                            <group>
+                                <field name="handicap_par_url" />
+                                <field name="handicap_official" />
+                            </group>
+                            <field name="sgs_gain" placeholder="WHAT WOULD YOU LIKE TO GAIN FROM BEING AN SGS MEMBER?"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="profile_backend" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_short_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="create">false</attribute>
+                <attribute name="edit">true</attribute>
+                <attribute name="delete">false</attribute>
+            </xpath>
+            <sheet position="before">
+
+                <field name="active" invisible="1" />
+                <button name="archive_partner" string="Remove Member" class="oe_highlight" attrs="{'invisible':[('active', '!=', True)]}" type="object"/>
+                <button name="reactivate_partner" string="Reactivate Member" class="oe_highlight" attrs="{'invisible':[('active', '!=', False)]}" type="object"/>
+                <!-- <field name="state" widget="statusbar" statusbar_visible="" statusbar_colors="{'KEY_IS_STATE':'VALUE_IS_COLOR'}"/> -->
+            </sheet>
+            <sheet position="inside">
+                <notebook>
+                    <page string="Personal Details">
+                        <group>
+                            <field name="gender" />
+                            <field name="date_of_birth" />
+                            <field name="hand" />
+                            <field name="size_glove" />
+                            <field name="size_shirt" />
+                        </group>
+                    </page>
+                    <page string="SGS Details">
+                        <group>
+                            <field name="package_id" />
+                            <field name="expiry_date" />
+                            <field name="expired_users"/>
+                            <field name="membership_no" />
+<!--                            <field name="egf_no"/>-->
+<!--                            <field name="egolf_no"/>-->
+                            <field name="id" string="GG Member Number" />
+                            <field name="handicap_par_url" />
+                            <field name="handicap_official" />
+                        </group>
+                        <field name="sgs_gain" placeholder="WHAT WOULD YOU LIKE TO GAIN FROM BEING AN SGS MEMBER?"/>
+                    </page>
+                </notebook>
+            </sheet>
+        </field>
+    </record>
+    <record id="profile_action_form" model="ir.actions.act_window">
+        <field name="name">Member</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('base.res_partner_kanban_view')}),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('base.view_partner_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('base.view_partner_short_form')})]"/>
+    </record>
+    <!-- <record id="myprofile_action_form" model="ir.actions.server">
+        <field name="name">My Profile</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="context">{'user_id':uid,'no_create': True,'no_edit':True}</field>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="state">code</field>
+        <field name="code">
+                action = model.open_my_profile()
+        </field>
+    </record> -->
+    <record id="public_action_form" model="ir.actions.act_url">
+        <field name="name">Go To Public Website</field>
+        <field name="target">new</field>
+        <field name="url">/</field>
+    </record>
+    <record id="logout_action_form" model="ir.actions.act_url">
+        <field name="name">Logout</field>
+        <field name="target">self</field>
+        <field name="url">/web/session/logout</field>
+    </record>
+    <menuitem id="menu_partner_profile" groups="sgs.group_member" name="SGS Members" parent="" action="profile_action_form" sequence="90" web_icon="sgs,static/src/img/menus_icons/sgs_members.png"/>
+
+    <!--    search view for the Members/Non-Members-->
+    <record id="sgs_members_search" model="ir.ui.view">
+        <field name="name">sgs.members.search</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='filter_my_partners']" position="before">
+                <filter string="Members" name="members" domain="[('email', '!=', True)]"/>
+                <filter string="Non Members" name="non_members" domain="[('email', '=', False)]"/>
+                <filter string="Active Users" name="active_users" domain="[('expired_users', '=', False)]"/>
+                <filter string="Expired Users" name="expired_users" domain="[('expired_users', '=', True)]"/>
+                <separator/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="profile_action_form" model="ir.actions.act_window">
+        <field name="name">Members</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{"search_default_members":1}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create your First Member !
+          </p>
+        </field>
+    </record>
+</odoo>
